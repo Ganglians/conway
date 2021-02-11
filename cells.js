@@ -2,7 +2,7 @@
 
 let canvas, ctx;
 let timeStamp = 0, oldTimeStamp = 0, dt = 0; // Time markers
-
+let colors = ["#999999", "#ccccff"];
 
 window.addEventListener("load", function(event) {
   canvas = document.getElementById("overworld");
@@ -12,13 +12,16 @@ window.addEventListener("load", function(event) {
   game.setup();
 });
 
-function cell(x = 10, y = 10, w = 10, h = 10, col = "green") {
+function cell(x = 0, y = 0, w = 5, h = 5) {
   this.x = x;
   this.y = y;
   // square w x l will represent cell (with w = l, of course, had them be different vars for the sake of generallization)
   this.w = w; // width
   this.h = h; // height
-  this.col = col; // cell color
+
+  // Determine whether or not the cell is dead or alive w/ coinflip odds
+  this.isAlive = Math.random() > 0.5 ? 1: 0;
+  // this.col = colors[isAlive];
 }
 
 var renderer = (function() {
@@ -56,7 +59,7 @@ var renderer = (function() {
   }
 
   function _drawCell(entity) {
-    _drawRect(entity.x, entity.y, entity.w, entity.h, entity.col);
+    _drawRect(entity.x, entity.y, entity.w, entity.h, colors[entity.isAlive]);
   }
 
   function _render() { // renders game objects
@@ -92,7 +95,7 @@ var game = (function() {
   var _deletion = []; // store objects marked for deletion
 
   function _setup() {
-    let cellA = new cell(10, 10, 100, 10);
+    let cellA = new cell(0, 0);
     _entities.push(cellA);
     // window.requestAnimationFrame(_gameLoop);
     renderer.render();
