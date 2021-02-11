@@ -29,11 +29,11 @@ var renderer = (function() {
       var data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
           <defs> \
               <pattern id="smallGrid" width="5" height="5" patternUnits="userSpaceOnUse"> \
-                  <path d="M 8 0 L 0 0 0 8" fill="none" stroke="black" stroke-width=".09" /> \
+                  <path d="M 8 0 L 0 0 0 8" fill="none" stroke="white" stroke-width="1" /> \
               </pattern> \
               <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse"> \
                   <rect width="80" height="80" fill="url(#smallGrid)" /> \
-                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="gray" stroke-width="1" /> \
+                  <path d="M 80 0 L 0 0 0 80" fill="none" stroke="white" stroke-width="1" /> \
               </pattern> \
           </defs> \
           <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
@@ -63,7 +63,6 @@ var renderer = (function() {
   }
 
   function _render() { // renders game objects
-
     let i, entity, entities = game.entities();
 
     for(i = 0; i < entities.length; i ++) {
@@ -95,10 +94,20 @@ var game = (function() {
   var _deletion = []; // store objects marked for deletion
 
   function _setup() {
-    let cellA = new cell(0, 0);
-    _entities.push(cellA);
+    _populate(5, 5);
     // window.requestAnimationFrame(_gameLoop);
     renderer.render();
+  }
+
+  function _populate(c_w, c_h) {
+    // dimensions that each cell will have
+    // Fill up canvas with grid of cells, number depends on their size and the size of the canvas
+    for(let x = 0; x < canvas.width; x += c_w) {
+      for(let y = 0; y < canvas.height; y += c_h) {
+        let c_new = new cell(x, y, c_w, c_h);
+        _entities.push(c_new);
+      }
+    }
   }
 
   function _gameLoop(timeStamp) {
@@ -117,6 +126,7 @@ var game = (function() {
   return { // accessors
     // methods
     setup:    _setup,
+    populate: _populate,
     gameLoop: _gameLoop,
 
     // data

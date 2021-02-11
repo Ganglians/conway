@@ -2,5 +2,6 @@
   border: 1px solid grey;
   height: 50vh;
   /*margin: -1px;*/
-  width: 50vw;
+  margin: none;
+  width: 60vw;
 }
