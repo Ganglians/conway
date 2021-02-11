@@ -1,6 +1,6 @@
 #overworld {
-  height: 50%;
-  width: 50%;
-  border: 1px solid "gray";
-  margin: -1px;
+  border: 1px solid grey;
+  height: 50vh;
+  /*margin: -1px;*/
+  width: 50vw;
 }
